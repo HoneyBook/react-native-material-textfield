@@ -8,7 +8,6 @@ import {
   StyleSheet,
   Platform,
   ViewPropTypes,
-  I18nManager,
 } from 'react-native';
 
 import RN from 'react-native/package.json';
@@ -299,6 +298,7 @@ export default class TextField extends PureComponent {
       [type]: affix,
       fontSize,
       baseColor,
+      tintColor,
       animationDuration,
       affixTextStyle,
     } = this.props;
@@ -312,7 +312,7 @@ export default class TextField extends PureComponent {
       active,
       focused,
       fontSize,
-      baseColor,
+      baseColor: focused?tintColor:baseColor,
       animationDuration,
     };
 
@@ -370,10 +370,6 @@ export default class TextField extends PureComponent {
     let count = value.length;
     let restricted = limit < count;
 
-    let textAlign = I18nManager.isRTL?
-      'right':
-      'left';
-
     let borderBottomColor = restricted?
       errorColor:
       focus.interpolate({
@@ -397,13 +393,12 @@ export default class TextField extends PureComponent {
         { borderBottomColor, borderBottomWidth }),
 
       ...(props.multiline?
-        { height: 'web' === Platform.OS ? 'auto' : labelHeight + inputContainerPadding + height }:
+        { height: labelHeight + inputContainerPadding + height }:
         { height: labelHeight + inputContainerPadding + fontSize * 1.5 }),
     };
 
     let inputStyle = {
       fontSize,
-      textAlign,
 
       color: (disabled || defaultVisible)?
         baseColor:
