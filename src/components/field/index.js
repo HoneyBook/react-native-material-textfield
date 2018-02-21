@@ -324,6 +324,11 @@ export default class TextField extends PureComponent {
 
   render() {
     let { receivedFocus, focus, focused, error, errored, height, text = '' } = this.state;
+    if(this.props.forceFocus){
+        receivedFocus=true;
+        focused=true;
+    }
+
     let {
       style: inputStyleOverrides,
       label,
